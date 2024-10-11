@@ -1,0 +1,49 @@
+# Default values for solver-usersync.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+global:
+  compatibility:
+    openshift:
+      ## auto (apply if the detected running cluster is Openshift)
+      ## force (perform the adaptation always)
+      ## disabled (do not perform adaptation)
+      adaptSecurityContext: auto
+openldap:
+  containerSecurityContext:
+    enabled: true
+    seLinuxOptions: {}
+    runAsUser: 1001
+    runAsGroup: 0
+    runAsNonRoot: true
+    privileged: false
+    readOnlyRootFilesystem: false
+    allowPrivilegeEscalation: false
+    capabilities:
+      drop: ["ALL"]
+      add: ["NET_BIND_SERVICE"]
+    seccompProfile:
+      type: "RuntimeDefault"
+  podSecurityContext:
+    enabled: true
+    fsGroupChangePolicy: Always
+    sysctls: []
+    supplementalGroups: []
+    fsGroup: 1001
+usersync:
+  schedule: "0/5 * * * *"
+  env:
+    keycloak_url: "http://keycloak"
+    keycloak_realm: "exim"
+    keycloak_user: "solversync"
+    keycloak_password: ""
+    openldap_password_generator: "true"
+    superset_create_database: "false"
+  resources:
+    requests:
+      enabled: true
+      cpu: "10m"
+      memory: "50Mi"
+    limits:
+      enabled: true
+      cpu: "270m"
+      memory: "300Mi"

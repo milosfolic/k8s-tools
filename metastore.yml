@@ -1,0 +1,45 @@
+# Default values for solver-metastore.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+global:
+  compatibility:
+    openshift:
+      ## auto (apply if the detected running cluster is Openshift)
+      ## force (perform the adaptation always)
+      ## disabled (do not perform adaptation)
+      adaptSecurityContext: auto
+external_sources:
+  mariadb:
+    secrets:
+      DB_PASSWORD: 
+      DB_HOST: "metastore-db-mariadb"
+  object_storage:
+    secrets:
+      OS_HOST:
+      OS_USE_SSL: "false"
+      OS_USE_SCHEME: "http"
+container:
+  containerSecurityContext:
+    enabled: true
+  podSecurityContext:
+    enabled: true
+  init:
+    resources:
+      requests:
+        enabled: true
+        cpu: "10m"
+        memory: "128Mi"
+      limits:
+        enabled: true
+        cpu: "50m"
+        memory: "256Mi"
+  main:
+    resources:
+      requests:
+        enabled: true
+        cpu: "50m"
+        memory: "200Mi"
+      limits:
+        enabled: true
+        cpu: "500m"
+        memory: "4Gi"

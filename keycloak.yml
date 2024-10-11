@@ -1,0 +1,59 @@
+global:
+  compatibility:
+    openshift:
+      adaptSecurityContext: auto
+podSecurityContext: 
+  enabled: true
+containerSecurityContext:
+  enabled: true
+resources:
+  requests:
+    cpu: 20m
+    memory: 800Mi
+  limits:
+    cpu: 200m
+    memory: 2Gi
+auth:
+  adminUser: 
+  adminPassword: ""
+postgresql:
+  enabled: false
+externalDatabase:
+  host: "datalake-postgresql"
+  user: keycloak
+  password: 
+  database: keycloak
+  port: 5432
+cache:
+  enabled: true
+extraEnvVars:
+  - name: KC_HOSTNAME_URL
+    value: "https://ts-auth.eximbank.ro"
+  - name: KC_HOSTNAME_ADMIN_URL
+    value: "https://ts-auth.eximbank.ro"
+  - name: KC_HOSTNAME_PORT
+    value: "443"
+  - name: KC_HOSTNAME_DEBUG
+    value: "true"
+  - name: KC_HOSTNAME_STRICT
+    value: "false"
+  - name: KC_HOSTNAME_STRICT_HTTPS
+    value: "false"
+  - name: KC_PROXY_ADDRESS_FORWARDING
+    value: "true"
+  - name: PROXY_ADDRESS_FORWARDING
+    value: "true"
+  - name: KC_TRANSACTION_XA_ENABLED
+    value: "false"
+  - name: KC_HOSTNAME_STRICT_BACKCHANNEL
+    value: "false"
+proxy: edge
+httpRelativePath: /
+logging:
+  level: INFO
+production: true
+# Disabled create PDB and ServiceAccount because of insufficient privileges
+pdb:
+  create: false
+serviceAccount:
+  create: false

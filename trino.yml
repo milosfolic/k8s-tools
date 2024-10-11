@@ -1,0 +1,23 @@
+external_sources:
+  object_storage:
+    secrets:
+      OS_HOST:
+      OS_USE_SSL: "false"
+      OS_USE_SCHEME: "http"
+container:
+  worker:
+    replicas: 1
+    extraVolumeClaimTemplates:
+      - metadata:
+          name: trino-tmp-data
+        spec:
+          storageClassName: gp3
+          accessModes:
+          - ReadWriteOnce
+          resources:
+            requests:
+              storage: 16Gi
+  controller:
+    volume:
+      spiller:
+        storageClassName: "gp3"
